@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="MyMoney helps you budget, track spending, save towards goals, and manage small-business finances.">
+  <title>MyMoney — Your money, your future</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard" aria-label="MyMoney home">
+        <span class="brand-mark">M</span><span>MyMoney</span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-page="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-item" data-page="transactions"><span>↕</span> Transactions</button>
+        <button class="nav-item" data-page="budgets"><span>▤</span> Budgets</button>
+        <button class="nav-item" data-page="savings"><span>◉</span> Savings goals</button>
+        <button class="nav-item" data-page="bills"><span>◷</span> Bills & reminders</button>
+        <button class="nav-item" data-page="business"><span>▣</span> Business tools</button>
+        <button class="nav-item" data-page="calculators"><span>⌗</span> Calculators</button>
+        <button class="nav-item" data-page="insights"><span>⌁</span> Insights & tips</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="privacy-note"><span class="privacy-dot"></span><div><strong>Your data stays here</strong><small>This demo saves on this device.</small></div></div>
+        <button class="nav-item" data-page="settings"><span>⚙</span> Settings & data</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+        <div class="crumb"><span>MyMoney</span><b>/</b><strong id="pageCrumb">Dashboard</strong></div>
+        <div class="top-actions">
+          <span class="currency-pill">ZAR · R</span>
+          <button class="icon-button" id="themeToggle" title="Toggle light/dark theme" aria-label="Toggle theme">☼</button>
+        </div>
+      </header>
+
+      <section class="page active" id="page-dashboard">
+        <div class="page-heading">
+          <div><p class="eyebrow">YOUR FINANCIAL OVERVIEW</p><h1>Money at a glance<span class="green-dot">.</span></h1><p class="subheading">A clearer picture of where your money goes.</p></div>
+          <button class="primary-button" data-open-modal="transactionModal">＋ Add transaction</button>
+        </div>
+        <div class="demo-banner"><span>ⓘ</span><div><strong>Welcome to your MyMoney demo</strong><p>Example figures are shown until you add your own transactions. This is not connected to a bank.</p></div></div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-top"><span>Available balance</span><span class="stat-icon green">↗</span></div><div class="stat-value" id="balanceStat">R0.00</div><div class="stat-foot" id="balanceFoot">Income minus expenses</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Total income</span><span class="stat-icon green">＋</span></div><div class="stat-value" id="incomeStat">R0.00</div><div class="stat-foot">Recorded income</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Total expenses</span><span class="stat-icon coral">↘</span></div><div class="stat-value" id="expenseStat">R0.00</div><div class="stat-foot">Recorded spending</div></article>
+          <article class="stat-card"><div class="stat-top"><span>Saved towards goals</span><span class="stat-icon blue">◎</span></div><div class="stat-value" id="savedStat">R0.00</div><div class="stat-foot" id="savedFoot">Across all goals</div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel chart-panel">
+            <div class="panel-heading"><div><h2>Cash flow</h2><p>Income and expenses this month</p></div><span class="tag">This month</span></div>
+            <div class="cashflow" id="cashflowChart"><div class="empty-state">Add transactions to see your cash flow.</div></div>
+            <div class="chart-legend"><span><i class="legend-income"></i>Income</span><span><i class="legend-expense"></i>Expenses</span></div>
+          </article>
+          <article class="panel">
+            <div class="panel-heading"><div><h2>Spending breakdown</h2><p>Where your money goes</p></div><button class="text-button" data-page="transactions">View all</button></div>
+            <div id="categoryBreakdown" class="breakdown"><div class="empty-state">Your categories will appear here.</div></div>
+          </article>
+        </div>
+        <article class="panel recent-panel">
+          <div class="panel-heading"><div><h2>Recent transactions</h2><p>Your latest money activity</p></div><button class="text-button" data-page="transactions">All transactions →</button></div>
+          <div id="recentTransactions"></div>
+        </article>
+        <div class="tip-card"><div class="tip-symbol">✦</div><div><strong>Small steps add up</strong><p id="dailyTip">Track your spending for a week to discover where you can save.</p></div><button class="text-button" data-page="insights">More tips →</button></div>
+      </section>
+
+      <section class="page" id="page-transactions">
+        <div class="page-heading"><div><p class="eyebrow">MONEY IN, MONEY OUT</p><h1>Transactions<span class="green-dot">.</span></h1><p class="subheading">Record and review every rand.</p></div><button class="primary-button" data-open-modal="transactionModal">＋ Add transaction</button></div>
+        <article class="panel">
+          <div class="toolbar"><input id="transactionSearch" class="field search-field" placeholder="Search transactions…" aria-label="Search transactions"><select id="transactionFilter" class="field" aria-label="Filter transaction type"><option value="all">All types</option><option value="income">Income</option><option value="expense">Expenses</option></select></div>
+          <div id="transactionsTable"></div>
+        </article>
+      </section>
+
+      <section class="page" id="page-budgets">
+        <div class="page-heading"><div><p class="eyebrow">SPEND WITH A PLAN</p><h1>Budgets<span class="green-dot">.</span></h1><p class="subheading">Set limits and keep your spending in check.</p></div><button class="primary-button" data-open-modal="budgetModal">＋ Create budget</button></div>
+        <div class="info-card"><strong>How budgets work</strong><p>Set a monthly limit for a category. MyMoney compares it with the expenses you have recorded in that category.</p></div>
+        <div id="budgetsList" class="budget-grid"></div>
+      </section>
+
+      <section class="page" id="page-savings">
+        <div class="page-heading"><div><p class="eyebrow">MAKE YOUR PLANS HAPPEN</p><h1>Savings goals<span class="green-dot">.</span></h1><p class="subheading">Give every goal a target and track your progress.</p></div><button class="primary-button" data-open-modal="goalModal">＋ New goal</button></div>
+        <div id="goalsList" class="goal-grid"></div>
+      </section>
+
+      <section class="page" id="page-bills">
+        <div class="page-heading"><div><p class="eyebrow">STAY ONE STEP AHEAD</p><h1>Bills & reminders<span class="green-dot">.</span></h1><p class="subheading">Keep due dates and recurring costs organised.</p></div><button class="primary-button" data-open-modal="billModal">＋ Add bill</button></div>
+        <div class="info-card"><strong>Reminder note</strong><p>These reminders are stored in this browser. They do not send push notifications or pay bills automatically.</p></div>
+        <div id="billsList"></div>
+      </section>
+
+      <section class="page" id="page-business">
+        <div class="page-heading"><div><p class="eyebrow">TOOLS FOR SIDE HUSTLES</p><h1>Business tools<span class="green-dot">.</span></h1><p class="subheading">Price products, record sales and understand your profit.</p></div></div>
+        <div class="tool-grid">
+          <article class="panel tool-card"><div class="tool-icon">R</div><h2>Reselling profit calculator</h2><p>Include the item cost, delivery, packaging and selling price.</p><div class="form-stack"><label>Product cost (R)<input class="field" type="number" id="productCost" min="0" step=".01" value="100"></label><label>Delivery / packaging (R)<input class="field" type="number" id="extraCost" min="0" step=".01" value="20"></label><label>Selling price (R)<input class="field" type="number" id="sellingPrice" min="0" step=".01" value="180"></label><div class="calc-result"><span>Profit per item</span><strong id="profitResult">R60.00</strong><small id="marginResult">33.3% profit margin</small></div></div></article>
+          <article class="panel tool-card"><div class="tool-icon">▤</div><h2>Quick sale record</h2><p>Record a sale as income in your transaction history.</p><form id="saleForm" class="form-stack"><label>Product / sale description<input class="field" id="saleName" required placeholder="e.g. T-shirt sale"></label><label>Sale amount (R)<input class="field" id="saleAmount" type="number" min=".01" step=".01" required placeholder="0.00"></label><button class="primary-button" type="submit">Record sale</button></form></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-calculators">
+        <div class="page-heading"><div><p class="eyebrow">QUICK ANSWERS</p><h1>Calculators<span class="green-dot">.</span></h1><p class="subheading">Simple tools for everyday money decisions.</p></div></div>
+        <div class="calculator-grid">
+          <article class="panel tool-card"><h2>Discount calculator</h2><p>Find the sale price and how much you save.</p><div class="form-stack"><label>Original price (R)<input id="discountPrice" class="field" type="number" min="0" value="500"></label><label>Discount (%)<input id="discountRate" class="field" type="number" min="0" max="100" value="20"></label><div class="calc-result"><span>Price after discount</span><strong id="discountResult">R400.00</strong><small id="discountSaved">You save R100.00</small></div></div></article>
+          <article class="panel tool-card"><h2>VAT calculator</h2><p>Estimate VAT using the standard South African rate of 15%. Check current rules for special cases.</p><div class="form-stack"><label>Amount excluding VAT (R)<input id="vatAmount" class="field" type="number" min="0" value="100"></label><div class="calc-result"><span>VAT amount</span><strong id="vatResult">R15.00</strong><small id="vatTotal">Total including VAT: R115.00</small></div></div></article>
+          <article class="panel tool-card"><h2>Split the bill</h2><p>Work out an even split between people.</p><div class="form-stack"><label>Total bill (R)<input id="splitAmount" class="field" type="number" min="0" value="360"></label><label>Number of people<input id="splitPeople" class="field" type="number" min="1" step="1" value="4"></label><div class="calc-result"><span>Each person pays</span><strong id="splitResult">R90.00</strong></div></div></article>
+          <article class="panel tool-card"><h2>Simple interest calculator</h2><p>Estimate interest without fees, compounding or tax.</p><div class="form-stack"><label>Starting amount (R)<input id="interestPrincipal" class="field" type="number" min="0" value="1000"></label><label>Annual interest rate (%)<input id="interestRate" class="field" type="number" min="0" step=".1" value="5"></label><label>Time (years)<input id="interestYears" class="field" type="number" min="0" step=".5" value="2"></label><div class="calc-result"><span>Estimated total</span><strong id="interestResult">R1,100.00</strong><small id="interestEarned">Interest: R100.00</small></div></div></article>
+          <article class="panel tool-card"><h2>Currency converter</h2><p>Enter your own exchange rate. This demo does not fetch live rates.</p><div class="form-stack"><label>Amount in source currency<input id="fxAmount" class="field" type="number" min="0" value="100"></label><label>Exchange rate (target per 1 source)<input id="fxRate" class="field" type="number" min="0" step=".0001" value="18"></label><div class="calc-result"><span>Converted amount</span><strong id="fxResult">1,800.00</strong><small>Result uses the rate you entered.</small></div></div></article>
+          <article class="panel tool-card"><h2>Loan repayment estimate</h2><p>Estimate a monthly repayment for a fixed-rate loan. Fees are excluded.</p><div class="form-stack"><label>Loan amount (R)<input id="loanAmount" class="field" type="number" min="0" value="10000"></label><label>Annual interest (%)<input id="loanRate" class="field" type="number" min="0" step=".1" value="12"></label><label>Term (months)<input id="loanMonths" class="field" type="number" min="1" step="1" value="12"></label><div class="calc-result"><span>Estimated monthly payment</span><strong id="loanResult">R888.49</strong><small>Illustrative estimate, not a lender quote.</small></div></div></article>
+        </div>
+      </section>
+
+      <section class="page" id="page-insights">
+        <div class="page-heading"><div><p class="eyebrow">BUILD HEALTHIER HABITS</p><h1>Insights & tips<span class="green-dot">.</span></h1><p class="subheading">Use your records to make more informed choices.</p></div></div>
+        <div class="content-grid"><article class="panel"><h2>Your money snapshot</h2><div id="insightSnapshot"></div></article><article class="panel"><h2>Everyday money tips</h2><div class="tip-list"><div><span>01</span><p><strong>Pay yourself first.</strong><br>Choose a realistic amount to save when money comes in.</p></div><div><span>02</span><p><strong>Plan before shopping.</strong><br>Use a list and set a spending limit before you go.</p></div><div><span>03</span><p><strong>Compare the full cost.</strong><br>Include delivery, fees and packaging when comparing prices.</p></div><div><span>04</span><p><strong>Review subscriptions.</strong><br>Check recurring charges and cancel ones you no longer use.</p></div><div><span>05</span><p><strong>Build a buffer slowly.</strong><br>Even small, regular savings can help with unexpected costs.</p></div></div></article></div>
+        <div class="disclaimer"><strong>Important:</strong> MyMoney provides general budgeting and educational tools, not personalised financial, tax, credit or investment advice. Verify figures and rules before making decisions.</div>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-heading"><div><p class="eyebrow">YOUR PREFERENCES</p><h1>Settings & data<span class="green-dot">.</span></h1><p class="subheading">Control your display and keep a copy of your records.</p></div></div>
+        <div class="settings-grid">
+          <article class="panel"><h2>Appearance</h2><p>Choose the look that works for you.</p><label class="setting-row">Dark theme <input type="checkbox" id="darkModeSetting" checked></label></article>
+          <article class="panel"><h2>Data & privacy</h2><p>Transactions, goals, budgets and bills are saved in this browser's local storage. They do not automatically sync to another device.</p><div class="button-stack"><button class="secondary-button" id="exportData">Export backup (JSON)</button><label class="secondary-button file-label">Import backup<input id="importData" type="file" accept="application/json" hidden></label><button class="danger-button" id="clearData">Delete all local data</button></div></article>
+          <article class="panel"><h2>About MyMoney</h2><p>A personal finance demo made to help organise everyday money. No bank connection, bank login or payments are enabled.</p><div class="settings-meta"><span>Currency</span><strong>South African rand (ZAR)</strong></div><div class="settings-meta"><span>Version</span><strong>1.0 demo</strong></div></article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <button class="active" data-page="dashboard"><span>▦</span><small>Home</small></button>
+    <button data-page="transactions"><span>↕</span><small>Activity</small></button>
+    <button data-page="budgets"><span>▤</span><small>Budgets</small></button>
+    <button data-page="savings"><span>◉</span><small>Savings</small></button>
+    <button data-page="settings"><span>⚙</span><small>Settings</small></button>
+  </nav>
+
+  <dialog id="transactionModal" class="modal"><form id="transactionForm" method="dialog"><div class="modal-heading"><div><p class="eyebrow">RECORD MONEY MOVEMENT</p><h2>Add transaction</h2></div><button type="button" class="icon-button close-modal" aria-label="Close">×</button></div><div class="form-stack"><label>Type<select class="field" id="txType"><option value="expense">Expense</option><option value="income">Income</option></select></label><label>Description<input class="field" id="txDescription" required maxlength="80" placeholder="e.g. Groceries"></label><label>Amount (R)<input class="field" id="txAmount" required type="number" min=".01" step=".01" placeholder="0.00"></label><label>Category<select class="field" id="txCategory"><option>Food</option><option>Transport</option><option>Shopping</option><option>Housing</option><option>Bills</option><option>Health</option><option>Education</option><option>Entertainment</option><option>Business</option><option>Salary</option><option>Other</option></select></label><label>Date<input class="field" id="txDate" type="date" required></label><button class="primary-button full-button" type="submit">Save transaction</button></div></form></dialog>
+
+  <dialog id="budgetModal" class="modal"><form id="budgetForm" method="dialog"><div class="modal-heading"><div><p class="eyebrow">SPENDING PLAN</p><h2>Create a budget</h2></div><button type="button" class="icon-button close-modal" aria-label="Close">×</button></div><div class="form-stack"><label>Category<select class="field" id="budgetCategory"><option>Food</option><option>Transport</option><option>Shopping</option><option>Housing</option><option>Bills</option><option>Health</option><option>Education</option><option>Entertainment</option><option>Business</option><option>Other</option></select></label><label>Monthly limit (R)<input class="field" id="budgetLimit" required type="number" min=".01" step=".01" placeholder="0.00"></label><button class="primary-button full-button" type="submit">Save budget</button></div></form></dialog>
+
+  <dialog id="goalModal" class="modal"><form id="goalForm" method="dialog"><div class="modal-heading"><div><p class="eyebrow">PLAN AHEAD</p><h2>Create savings goal</h2></div><button type="button" class="icon-button close-modal" aria-label="Close">×</button></div><div class="form-stack"><label>Goal name<input class="field" id="goalName" required maxlength="60" placeholder="e.g. New phone"></label><label>Target amount (R)<input class="field" id="goalTarget" required type="number" min=".01" step=".01" placeholder="0.00"></label><label>Already saved (R)<input class="field" id="goalSaved" type="number" min="0" step=".01" value="0"></label><label>Target date (optional)<input class="field" id="goalDate" type="date"></label><button class="primary-button full-button" type="submit">Create goal</button></div></form></dialog>
+
+  <dialog id="billModal" class="modal"><form id="billForm" method="dialog"><div class="modal-heading"><div><p class="eyebrow">REMEMBER A PAYMENT</p><h2>Add bill or reminder</h2></div><button type="button" class="icon-button close-modal" aria-label="Close">×</button></div><div class="form-stack"><label>Bill / reminder name<input class="field" id="billName" required maxlength="70" placeholder="e.g. Internet"></label><label>Amount (R, optional)<input class="field" id="billAmount" type="number" min="0" step=".01" placeholder="0.00"></label><label>Due date<input class="field" id="billDate" type="date" required></label><label>Repeat<select class="field" id="billRepeat"><option value="none">Does not repeat</option><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="yearly">Yearly</option></select></label><button class="primary-button full-button" type="submit">Save reminder</button></div></form></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
